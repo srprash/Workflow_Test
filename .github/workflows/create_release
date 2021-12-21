@@ -1,0 +1,22 @@
+name: Create GH release
+on:
+  workflow_dispatch:
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  Create release:
+    name: Create GH release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 'v${{ github.event.inputs.version }}'
+          release_name: 'AWS X-Ray daemon update v${{ github.event.inputs.version }}'
+          body: 'Please refer [change-log](https://github.com/aws/aws-xray-daemon/blob/master/CHANGELOG.md) for more details'
+          draft: true
+          prerelease: false
